@@ -26,7 +26,7 @@ class DatcomExporter(object):
     @staticmethod
     def command_line():
         import argparse
-        from parser import DatcomParser
+        from .parser import DatcomParser
 
         argparser = argparse.ArgumentParser()
         argparser.add_argument("datcom_file",
@@ -50,11 +50,11 @@ class DatcomExporter(object):
                 with open(args.out, 'w') as f:
                     f.write(result)
             else:
-                print result
+                print(result)
         else:
             for case in parser.get_cases():
-                print 'case: %s\n%s\n' % \
-                        (case['ID'], case.keys())
+                print('case: %s\n%s\n' % \
+                        (case['ID'], list(case.keys())))
 
 if __name__ == "__main__":
     DatcomExporter.command_line()

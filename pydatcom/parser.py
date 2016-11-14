@@ -43,7 +43,7 @@ class Parser(object):
         if self.file_name == None:
             while 1:
                 try:
-                    s = raw_input('> ')
+                    s = input('> ')
                 except EOFError:
                     break
                 if not s:
@@ -166,7 +166,7 @@ class DatcomParser(Parser):
         'BOOL',
         'CASEID',
         'NAMELIST'] \
-        + reserved_INPUT.values()
+        + list(reserved_INPUT.values())
 
     # Tokens
 
@@ -271,7 +271,7 @@ class DatcomParser(Parser):
         #print 'newline'
 
     def t_ANY_error(self, t):
-        print("Illegal character '%s' at line" % t.value[0], t.lexer.lineno)
+        print(("Illegal character '%s' at line" % t.value[0], t.lexer.lineno))
         t.lexer.skip(1)
         sys.exit(1)
 
@@ -306,7 +306,7 @@ class DatcomParser(Parser):
     def t_INPUT_FLOATVECTOR(self, t):
         try:
             vector = []
-            for num in string.split(t.value, ','):
+            for num in t.value.split(','):
                 vector.append(float(num))
             t.value = vector
         except ValueError:
@@ -327,7 +327,7 @@ class DatcomParser(Parser):
 
     def t_INPUT_ERROR(self, t):
         r'0.*ERROR.*\n(.+\n)'
-        print 'error: %s' % t.value
+        print('error: %s' % t.value)
 
     def t_INPUT_ZEROLINE(self, t):
         r'0.*'
@@ -386,10 +386,10 @@ class DatcomParser(Parser):
         table = {}
         colLastOld = -1
         lines = data.split('\n')
-        for i in xrange(len(cols)):
+        for i in range(len(cols)):
             colLast = colLastOld + cols[i][1]
             valList = []
-            for j in xrange(len(lines) - 1):
+            for j in range(len(lines) - 1):
             # -1 to skip last newline
                 line = lines[j]
                 col = line[colLastOld + 1:colLast].strip()
@@ -467,13 +467,13 @@ class DatcomParser(Parser):
         rows = []
         lines = data.split('\n')
 
-        for i in xrange(len(lines) - 1):
+        for i in range(len(lines) - 1):
         # -1 to skip last newline
             line = lines[i]
             rows.append(float(line[0:rowWidth - 1]))
             colLastOld = rowWidth
             dataArray.append([])
-            for j in xrange(len(colWidths)):
+            for j in range(len(colWidths)):
                 colLast = colLastOld + colWidths[j]
                 col = line[colLastOld + 1:colLast].strip()
                 if col == '':
@@ -493,8 +493,8 @@ class DatcomParser(Parser):
 
     def p_error(self, p):
         if p:
-            print("Syntax error '%s' at line: %d, state: %s" \
-                  % (p.value, self.lex.lineno, self.lex.lexstate))
+            print(("Syntax error '%s' at line: %d, state: %s" \
+                  % (p.value, self.lex.lineno, self.lex.lexstate)))
         else:
             print("Syntax error at EOF")
         sys.exit(1)
@@ -553,9 +553,9 @@ class DatcomParser(Parser):
     def p_terms(self, p):
         'terms : terms COMMA term'
         p[0] = p[1]
-        for key in p[3].keys():
+        for key in list(p[3].keys()):
             if key in p[0]:
-                print 'WARNING: duplicate key %s' % key
+                print('WARNING: duplicate key %s' % key)
             else:
                 p[0][key] = p[3][key]
 

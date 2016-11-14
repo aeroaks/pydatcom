@@ -177,7 +177,7 @@ class DatcomPlotter(object):
     @staticmethod
     def command_line():
         import argparse
-        from parser import DatcomParser
+        from .parser import DatcomParser
 
         argparser = argparse.ArgumentParser()
         argparser.add_argument("datcom_file",

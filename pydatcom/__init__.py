@@ -1,3 +1,3 @@
-from parser import DatcomParser
-from exporter import DatcomExporter
-from plotter import DatcomPlotter
+from pydatcom.parser import DatcomParser
+from pydatcom.exporter import DatcomExporter
+from pydatcom.plotter import DatcomPlotter
