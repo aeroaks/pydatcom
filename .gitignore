@@ -12,3 +12,4 @@ fig/
 DatcomParser-*/
 deb_dist/
 *.egg-info/
+.idea/
